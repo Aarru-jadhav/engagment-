@@ -4,6 +4,7 @@ import "./App.css";
 import Couple from "./Section/Couple";
 
 
+
 import gatePoster from "./assets/image/gate.png";
 import gateVideo from "./assets/video/engagment-video-optimized.mp4";
 
@@ -84,8 +85,7 @@ export default function App() {
               <p className="invitation-label">|| श्री जिनेन्द्राय नमः ||</p>
               <div className="gold-divider" />
 
-              <h1 className="gate-title">शुभ विवाह</h1>
-
+             
               <p className="gate-subtitle">
                 मंगलमय आयोजन में सादर आमंत्रण
               </p>
