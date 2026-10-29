@@ -358,7 +358,6 @@ export default function DateSection() {
           flex-shrink: 0;
         }
 
-        /* Footer spacing reduced */
         .date-footer {
           max-width: 300px;
           margin: 5px auto 0;
@@ -374,6 +373,8 @@ export default function DateSection() {
           .date-heading {
             font-size: 24px;
             margin-bottom: 10px;
+            top: -35px;
+            margin-bottom: 6px;
           }
 
           .date-details {
@@ -393,7 +394,6 @@ export default function DateSection() {
           }
         }
 
-        /* Short-height phones */
         @media (max-height: 650px) {
           .date-section {
             padding-top: 10px;

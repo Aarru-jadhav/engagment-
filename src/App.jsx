@@ -8,6 +8,8 @@ import Rsvp from "./Section/Rsvp";
 import gatePoster from "./assets/image/gate.png";
 import gateVideo from "./assets/video/engagment-video-optimized.mp4";
 
+const weddingAudio = "/audio/audio.mp3";
+
 const styles = `
   * {
     box-sizing: border-box;
@@ -119,7 +121,9 @@ const styles = `
     font-weight: 600;
     letter-spacing: 3px;
     cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease,
+    transition:
+      background 0.3s ease,
+      color 0.3s ease,
       transform 0.3s ease;
   }
 
@@ -149,7 +153,7 @@ const styles = `
     justify-content: center;
     padding: 24px;
     text-align: center;
-    color:#7B3F00;
+    color: #7B3F00;
     pointer-events: none;
     background: linear-gradient(
       to bottom,
@@ -163,7 +167,9 @@ const styles = `
     margin: 8px 0;
     opacity: 0;
     transform: translateY(18px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s ease;
     text-shadow: 0 2px 15px rgba(0, 0, 0, 0.75);
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(20px, 4vw, 34px);
@@ -223,6 +229,7 @@ export default function App() {
   const [textStep, setTextStep] = useState(0);
 
   const videoRef = useRef(null);
+  const audioRef = useRef(null);
   const timersRef = useRef([]);
   const startedRef = useRef(false);
 
@@ -242,6 +249,17 @@ export default function App() {
     startedRef.current = false;
     setTextStep(0);
     setIsOpening(true);
+
+    const audio = audioRef.current;
+
+    if (audio) {
+      audio.currentTime = 0;
+      audio.volume = 0.7;
+
+      audio.play().catch((error) => {
+        console.error("Audio playback failed:", error);
+      });
+    }
   };
 
   const handleVideoReady = async () => {
@@ -266,6 +284,12 @@ export default function App() {
       console.error("Video playback failed:", error);
       startedRef.current = false;
       setIsOpening(false);
+
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+
       setTextStep(0);
     }
   };
@@ -275,6 +299,7 @@ export default function App() {
     setIsOpening(false);
     setShowContent(true);
 
+    // Song keeps playing after the invitation opens.
     window.scrollTo({
       top: 0,
       behavior: "auto",
@@ -286,6 +311,14 @@ export default function App() {
       <style>{styles}</style>
 
       <main className="wedding-page">
+        {/* Background song remains mounted across all sections */}
+        <audio
+          ref={audioRef}
+          src={weddingAudio}
+          preload="auto"
+          loop
+        />
+
         {!showContent ? (
           <section className="gate-screen">
             <img
@@ -328,9 +361,7 @@ export default function App() {
                   className={`welcome-line ${
                     textStep >= 2 ? "text-visible" : ""
                   }`}
-                >
-                  
-                </p>
+                />
 
                 <h2
                   className={`welcome-line welcome-heading ${
@@ -358,13 +389,8 @@ export default function App() {
           </section>
         ) : (
           <div className="wedding-content">
-            {/* Couple section: normal scroll */}
             <Couple />
-
-            {/* Date section: independently pinned scroll animation */}
             <DateSection />
-
-            {/* RSVP section: normal scroll after Date animation */}
             <Rsvp />
           </div>
         )}
