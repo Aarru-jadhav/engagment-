@@ -155,7 +155,7 @@ export default function Couple() {
           font-style: italic;
           color: #a67b3e;
           transform: translateY(18px);
-          font-weight: 700;
+          font-weight: 400;
         }
 
         .couple-reveal .couple-with::before,
