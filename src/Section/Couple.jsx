@@ -353,9 +353,9 @@ export default function Couple() {
           </h1>
 
           <p className={`couple-family ${step >= 4 ? "show" : ""}`}>
-            Granddaughter of Shri Uttamraj Rashmi Kataria
+            Granddaughter of Shri Uttamrajji  &amp; Smt. Rashmiji Kataria
             <br />
-            Daughter of Ashish Poonam Kataria
+            Daughter of Ashish  &amp; Smt. Poonam Kataria
           </p>
 
           <div className={`couple-with ${step >= 5 ? "show" : ""}`}>
@@ -369,7 +369,7 @@ export default function Couple() {
           <p className={`couple-family ${step >= 7 ? "show" : ""}`}>
             Grandson of Late Shri Suresh Ji &amp; Smt. Tara Devi Nabariya
             <br />
-            Son of Shri Mahavirji Namitaji Jain
+            Son of Shri Mahavirji &amp; Smt. Namitaji Nabariya
           </p>
         </div>
 

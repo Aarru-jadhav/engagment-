@@ -1,5 +1,5 @@
-
 import React, { useEffect, useRef, useState } from "react";
+import rsvpBg from "../assets/image/rsvp.jpg";
 
 export default function Rsvp() {
   const sectionRef = useRef(null);
@@ -32,25 +32,24 @@ export default function Rsvp() {
       <section
         ref={sectionRef}
         className={`rsvp-section ${visible ? "rsvp-visible" : ""}`}
+        style={{ "--rsvp-bg": `url("${rsvpBg}")` }}
       >
+        <div className="rsvp-background" />
+        <div className="rsvp-shade" />
+
         <div className="rsvp-decoration decoration-top" />
         <div className="rsvp-decoration decoration-bottom" />
 
         <div className="rsvp-content">
-          <p className="rsvp-eyebrow">A CELEBRATION OF LOVE</p>
 
-          <div className="rsvp-divider">
-            <span />
-            <span className="divider-diamond">◆</span>
-            <span />
-          </div>
-
+          {/* Family Names */}
           <p className="rsvp-family">
             Kataria Family
-            <span className="family-divider"> & </span>
-            Nabaria Family
+            <span className="family-divider"> &amp; </span>
+            Nabariya Family
           </p>
 
+          {/* Main Message */}
           <div className="rsvp-message">
             <h2>
               <span>Two Families</span>
@@ -59,15 +58,18 @@ export default function Rsvp() {
             </h2>
           </div>
 
+          {/* Bottom Decorative Divider */}
           <div className="rsvp-bottom-divider">
             <span />
             <span className="divider-diamond">◆</span>
             <span />
           </div>
 
+          {/* Closing Text */}
           <p className="rsvp-closing">
             Together, a new story begins
           </p>
+
         </div>
       </section>
 
@@ -77,13 +79,14 @@ export default function Rsvp() {
           box-sizing: border-box;
         }
 
-        
         .rsvp-section {
   position: relative;
   isolation: isolate;
   width: 100%;
-  height: 80svh;
-  min-height: 480px;
+  min-height: 100vh;
+  min-height: 100svh;
+  height: 100vh;
+  height: 100svh;
   padding: 35px 20px;
   display: flex;
   justify-content: center;
@@ -91,13 +94,33 @@ export default function Rsvp() {
   overflow: hidden;
   text-align: center;
   color: #70452b;
-  background: radial-gradient(
-    ellipse at center,
-    #fffaf0 0%,
-    #f8edda 65%,
-    #f2e2c9 100%
-  );
+  background: #f8edda;
 }
+
+        /* Background Image */
+
+        .rsvp-background {
+          position: absolute;
+          z-index: -2;
+          inset: 0;
+          background-image: var(--rsvp-bg);
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        /* Light Overlay */
+
+        .rsvp-shade {
+          position: absolute;
+          z-index: -1;
+          inset: 0;
+          background: rgba(255, 248, 235, 0.38);
+          pointer-events: none;
+        }
+
+        /* Main Content */
+
         .rsvp-content {
           position: relative;
           z-index: 2;
@@ -105,16 +128,16 @@ export default function Rsvp() {
           max-width: 520px;
           margin: 0 auto;
           padding: 38px 16px;
-          border-top: 1px solid rgba(165, 119, 62, 0.45);
-          border-bottom: 1px solid rgba(165, 119, 62, 0.45);
         }
+
+        /* Decorative Circles */
 
         .rsvp-decoration {
           position: absolute;
           z-index: 0;
           width: 190px;
           height: 190px;
-          border: 1px solid rgba(165, 119, 62, 0.17);
+          border: 1px solid rgba(165, 119, 62, 0.25);
           border-radius: 50%;
           pointer-events: none;
         }
@@ -129,38 +152,10 @@ export default function Rsvp() {
           left: -65px;
         }
 
-        .rsvp-eyebrow {
-          margin: 0 0 18px;
-          font-family: Arial, sans-serif;
-          font-size: 10px;
-          font-weight: 600;
-          letter-spacing: 3px;
-          line-height: 1.6;
-          color: #946b3d;
-        }
-
-        .rsvp-divider,
-        .rsvp-bottom-divider {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-        }
-
-        .rsvp-divider span:not(.divider-diamond),
-        .rsvp-bottom-divider span:not(.divider-diamond) {
-          width: 45px;
-          height: 1px;
-          background: #b38b55;
-        }
-
-        .divider-diamond {
-          font-size: 9px;
-          color: #a5773e;
-        }
+        /* Family Names */
 
         .rsvp-family {
-          margin: 23px 0 28px;
+          margin: 0 0 28px;
           font-family: "Cormorant Garamond", Georgia, serif;
           font-size: clamp(19px, 4.5vw, 25px);
           font-style: italic;
@@ -174,6 +169,8 @@ export default function Rsvp() {
           padding: 0 4px;
         }
 
+        /* Main Message Animation */
+
         .rsvp-message {
           opacity: 0;
           transform: translateY(20px);
@@ -186,6 +183,8 @@ export default function Rsvp() {
           opacity: 1;
           transform: translateY(0);
         }
+
+        /* Main Heading */
 
         .rsvp-message h2 {
           display: flex;
@@ -209,9 +208,28 @@ export default function Rsvp() {
           color: #a5773e;
         }
 
+        /* Bottom Divider */
+
         .rsvp-bottom-divider {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
           margin-top: 28px;
         }
+
+        .rsvp-bottom-divider span:not(.divider-diamond) {
+          width: 45px;
+          height: 1px;
+          background: #b38b55;
+        }
+
+        .divider-diamond {
+          font-size: 9px;
+          color: #a5773e;
+        }
+
+        /* Closing Text */
 
         .rsvp-closing {
           margin: 18px 0 0;
@@ -231,8 +249,8 @@ export default function Rsvp() {
           transform: translateY(0);
         }
 
-        .rsvp-eyebrow,
-        .rsvp-divider,
+        /* Family & Divider Animation */
+
         .rsvp-family,
         .rsvp-bottom-divider {
           opacity: 0;
@@ -242,25 +260,17 @@ export default function Rsvp() {
             transform 700ms ease;
         }
 
-        .rsvp-visible .rsvp-eyebrow,
-        .rsvp-visible .rsvp-divider,
         .rsvp-visible .rsvp-family,
         .rsvp-visible .rsvp-bottom-divider {
           opacity: 1;
           transform: translateY(0);
         }
 
-        .rsvp-visible .rsvp-divider {
-          transition-delay: 100ms;
-        }
-
-        .rsvp-visible .rsvp-family {
-          transition-delay: 180ms;
-        }
-
         .rsvp-visible .rsvp-bottom-divider {
           transition-delay: 300ms;
         }
+
+        /* Mobile Responsive */
 
         @media (max-width: 380px) {
           .rsvp-section {
@@ -271,13 +281,8 @@ export default function Rsvp() {
             padding: 30px 8px;
           }
 
-          .rsvp-eyebrow {
-            font-size: 9px;
-            letter-spacing: 2px;
-          }
-
           .rsvp-family {
-            margin: 20px 0 25px;
+            margin: 0 0 25px;
             font-size: 19px;
           }
 
@@ -286,13 +291,13 @@ export default function Rsvp() {
           }
         }
 
+        /* Reduced Motion */
+
         @media (prefers-reduced-motion: reduce) {
           .rsvp-section * {
             transition: none !important;
           }
 
-          .rsvp-section .rsvp-eyebrow,
-          .rsvp-section .rsvp-divider,
           .rsvp-section .rsvp-family,
           .rsvp-section .rsvp-message,
           .rsvp-section .rsvp-bottom-divider,

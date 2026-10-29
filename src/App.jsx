@@ -152,12 +152,12 @@ const styles = `
     justify-content: center;
     padding: 24px;
     text-align: center;
-    color: #7B3F00;
+    color: #fff5df;
     pointer-events: none;
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.04),
-      rgba(0, 0, 0, 0.2)
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.12)
     );
   }
 
@@ -173,6 +173,7 @@ const styles = `
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(20px, 4vw, 34px);
     font-weight: 400;
+    color:#7B3F00;
   }
 
   .welcome-line.text-visible {
@@ -238,7 +239,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    return () => clearTimers();
+    return () => {
+      clearTimers();
+    };
   }, []);
 
   const handleOpen = () => {
@@ -274,36 +277,33 @@ export default function App() {
       video.muted = true;
 
       await video.play();
-
-      timersRef.current.push(
-        setTimeout(() => setTextStep(1), 500),
-        setTimeout(() => setTextStep(2), 1300),
-        setTimeout(() => setTextStep(3), 2100)
-      );
     } catch (error) {
       console.error("Video playback failed:", error);
       startedRef.current = false;
       setIsOpening(false);
+      setTextStep(0);
 
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
-
-      setTextStep(0);
     }
   };
 
   const handleVideoEnd = () => {
     clearTimers();
-    setIsOpening(false);
-    setShowContent(true);
+    setTextStep(3);
+    timersRef.current.push(
+      setTimeout(() => {
+        setIsOpening(false);
+        setShowContent(true);
 
-    // Audio continues playing throughout the invitation.
-    window.scrollTo({
-      top: 0,
-      behavior: "auto",
-    });
+        window.scrollTo({
+          top: 0,
+          behavior: "auto",
+        });
+      }, 2200)
+    );
   };
 
   return (
@@ -311,7 +311,6 @@ export default function App() {
       <style>{styles}</style>
 
       <main className="wedding-page">
-        {/* Wedding music stays mounted across all sections */}
         <audio
           ref={audioRef}
           src={weddingAudio}
@@ -366,7 +365,9 @@ export default function App() {
                   className={`welcome-line ${
                     textStep >= 2 ? "text-visible" : ""
                   }`}
-                />
+                >
+                  To The
+                </p>
 
                 <h2
                   className={`welcome-line welcome-heading ${

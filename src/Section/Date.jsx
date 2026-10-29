@@ -1,174 +1,58 @@
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CalendarDays,
   Clock,
   MapPin,
   UtensilsCrossed,
 } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import bg2 from "../assets/image/bg2.jpg";
 
-gsap.registerPlugin(ScrollTrigger);
+import bg2 from "../assets/image/bg2.jpg";
 
 export default function DateSection() {
   const sectionRef = useRef(null);
+  const [started, setStarted] = useState(false);
+  const [step, setStep] = useState(0);
 
-  useLayoutEffect(() => {
+  // Start animation when Date section enters the screen
+  useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    if (!section || started) return;
 
-    if (reduceMotion) {
-      gsap.set(section.querySelectorAll(".date-reveal"), {
-        autoAlpha: 1,
-        y: 0,
-        x: 0,
-      });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.15,
+      }
+    );
 
-      gsap.set(section.querySelector(".date-background"), {
-        autoAlpha: 1,
-        scale: 1,
-      });
+    observer.observe(section);
 
-      gsap.set(section.querySelector(".date-gold-line"), {
-        scaleX: 1,
-      });
+    return () => observer.disconnect();
+  }, [started]);
 
-      return;
-    }
+  // Reveal each element one by one, with a 1-second gap
+  useEffect(() => {
+    if (!started) return;
 
-    const ctx = gsap.context(() => {
-      const background = section.querySelector(".date-background");
-      const shade = section.querySelector(".date-shade");
-      const heading = section.querySelector(".date-heading");
-      const line = section.querySelector(".date-gold-line");
-      const date = section.querySelector(".date-date");
-      const time = section.querySelector(".date-time");
-      const venue = section.querySelector(".date-venue-item");
-      const lunch = section.querySelector(".date-lunch-item");
-      const location = section.querySelector(".date-location-btn");
-      const footer = section.querySelector(".date-footer");
+    const timers = [
+      setTimeout(() => setStep(1), 100),
+      setTimeout(() => setStep(2), 1100),
+      setTimeout(() => setStep(3), 2100),
+      setTimeout(() => setStep(4), 3100),
+      setTimeout(() => setStep(5), 4100),
+      setTimeout(() => setStep(6), 5100),
+      setTimeout(() => setStep(7), 6100),
+    ];
 
-      const reveals = [
-        heading,
-        line,
-        date,
-        time,
-        venue,
-        lunch,
-        location,
-        footer,
-      ].filter(Boolean);
-
-      gsap.set(background, {
-        autoAlpha: 0,
-        scale: 1.08,
-      });
-
-      gsap.set(shade, { autoAlpha: 0 });
-
-      gsap.set(reveals, {
-        autoAlpha: 0,
-        y: 24,
-      });
-
-      gsap.set([date, venue, location].filter(Boolean), {
-        x: -24,
-      });
-
-      gsap.set([time, lunch, footer].filter(Boolean), {
-        x: 24,
-      });
-
-      gsap.set(line, {
-        scaleX: 0,
-        transformOrigin: "center",
-      });
-
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${window.innerHeight * 5.5}`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.6,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      timeline
-        .to(background, {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 1,
-          ease: "none",
-        })
-        .to(
-          shade,
-          {
-            autoAlpha: 1,
-            duration: 0.4,
-          },
-          "<"
-        )
-        .to(heading, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.7,
-        })
-        .to(line, {
-          scaleX: 1,
-          duration: 0.4,
-        })
-        .to(date, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-        })
-        .to(time, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-        })
-        .to(venue, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-        })
-        .to(lunch, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-        })
-        .to(location, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-        })
-        .to(footer, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.7,
-        });
-
-      ScrollTrigger.refresh();
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+    return () => timers.forEach(clearTimeout);
+  }, [started]);
 
   return (
     <>
@@ -182,9 +66,8 @@ export default function DateSection() {
           position: relative;
           isolation: isolate;
           width: 100%;
-          height: 100vh;
-          height: 100svh;
-          min-height: 540px;
+          min-height: 100vh;
+          min-height: 100svh;
           padding: 22px 16px;
           display: flex;
           justify-content: center;
@@ -204,7 +87,6 @@ export default function DateSection() {
           background-size: cover;
           background-position: center top;
           background-repeat: no-repeat;
-          will-change: opacity, transform;
         }
 
         .date-shade {
@@ -219,7 +101,6 @@ export default function DateSection() {
           position: relative;
           width: 100%;
           max-width: 370px;
-          max-height: 100%;
           margin: auto;
           display: flex;
           flex-direction: column;
@@ -228,24 +109,30 @@ export default function DateSection() {
         }
 
         .date-reveal {
-          will-change: transform, opacity;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(18px);
+          transition:
+            opacity 800ms ease,
+            transform 800ms cubic-bezier(.2, .7, .2, 1),
+            visibility 0s linear 800ms;
+          will-change: opacity, transform;
         }
 
-        .date-heading {
-          width: 100%;
-          font-size: clamp(25px, 7vw, 34px);
-          line-height: 1.25;
-          font-weight: normal;
-          font-style: italic;
-          margin: 0 0 13px;
-          overflow-wrap: anywhere;
-          position: relative;
-          top: -15px;
+        .date-reveal.show {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+          transition:
+            opacity 800ms ease,
+            transform 800ms cubic-bezier(.2, .7, .2, 1),
+            visibility 0s;
         }
 
         .date-gold-line {
           width: 82px;
           height: 1px;
+          flex-shrink: 0;
           margin: 0 auto 12px;
           background: linear-gradient(
             90deg,
@@ -255,6 +142,22 @@ export default function DateSection() {
             #a5773e,
             transparent
           );
+          transform: scaleX(0);
+          transform-origin: center;
+          transition:
+            opacity 800ms ease,
+            transform 800ms ease,
+            visibility 0s linear 800ms;
+        }
+
+        .date-gold-line.show {
+          opacity: 1;
+          visibility: visible;
+          transform: scaleX(1);
+          transition:
+            opacity 800ms ease,
+            transform 800ms ease,
+            visibility 0s;
         }
 
         .date-details {
@@ -279,14 +182,6 @@ export default function DateSection() {
           margin-bottom: 5px;
           color: #a5773e;
           stroke-width: 1.8;
-        }
-
-        .date-label {
-          font-family: Arial, sans-serif;
-          font-size: 9px;
-          letter-spacing: 2.5px;
-          margin-bottom: 5px;
-          font-weight: 600;
         }
 
         .date-value {
@@ -344,7 +239,19 @@ export default function DateSection() {
           cursor: pointer;
           transition:
             background 250ms ease,
-            border-color 250ms ease;
+            border-color 250ms ease,
+            opacity 800ms ease,
+            transform 800ms ease,
+            visibility 0s linear 800ms;
+        }
+
+        .date-location-btn.show {
+          transition:
+            background 250ms ease,
+            border-color 250ms ease,
+            opacity 800ms ease,
+            transform 800ms ease,
+            visibility 0s;
         }
 
         .date-location-btn:hover {
@@ -368,13 +275,6 @@ export default function DateSection() {
         @media (max-width: 380px) {
           .date-section {
             padding: 18px 13px;
-          }
-
-          .date-heading {
-            font-size: 24px;
-            margin-bottom: 10px;
-            top: -35px;
-            margin-bottom: 6px;
           }
 
           .date-details {
@@ -401,15 +301,11 @@ export default function DateSection() {
           }
 
           .date-content {
-            transform: scale(.9) translateY(-25px);
+            transform: scale(.9) translateY(-15px);
           }
 
           .date-details {
             gap: 9px;
-          }
-
-          .date-heading {
-            font-size: 23px;
           }
 
           .date-location-btn {
@@ -423,51 +319,76 @@ export default function DateSection() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .date-section .date-reveal,
-          .date-section .date-background,
-          .date-section .date-shade,
-          .date-section .date-gold-line {
-            opacity: 1 !important;
-            transform: none !important;
-          }
-
+          .date-reveal,
+          .date-gold-line,
           .date-location-btn {
-            transition: none;
+            transition: none !important;
           }
         }
       `}</style>
 
-      <section ref={sectionRef} className="date-section">
+      <section className="date-section" ref={sectionRef}>
         <div className="date-background" />
         <div className="date-shade" />
 
         <div className="date-content">
-          <h1 className="date-heading date-reveal">
-            The Celebration 
-          </h1>
-
-          <div className="date-gold-line date-reveal" />
+          {/* 1. Golden line */}
+          <div
+            className={`date-gold-line date-reveal ${
+              step >= 1 ? "show" : ""
+            }`}
+          />
 
           <div className="date-details">
-            <div className="date-item date-reveal date-date">
+            {/* 2. Date */}
+            <div
+              className={`date-item date-reveal ${
+                step >= 2 ? "show" : ""
+              }`}
+            >
               <CalendarDays className="date-icon" />
+
               <p className="date-value">
                 Sunday, 1 November 2026
               </p>
             </div>
 
-            <div className="date-item date-reveal date-time">
+            {/* 3. Time */}
+            <div
+              className={`date-item date-reveal ${
+                step >= 3 ? "show" : ""
+              }`}
+            >
               <Clock className="date-icon" />
-              <p className="date-value">12:15 PM Onwards</p>
+
+              <p className="date-value">
+                12:15 PM Onwards
+              </p>
             </div>
 
-            <div className="date-item date-reveal date-venue-item">
+            {/* 4. Venue */}
+            <div
+              className={`date-item date-reveal ${
+                step >= 4 ? "show" : ""
+              }`}
+            >
               <MapPin className="date-icon" />
-              <p className="date-value">Bhandari Resort</p>
-              <div className="date-venue-name">Onyx Hall</div>
+
+              <p className="date-value">
+                Bhandari Resort
+              </p>
+
+              <div className="date-venue-name">
+                Onyx Hall
+              </div>
             </div>
 
-            <div className="date-item date-reveal date-lunch-item">
+            {/* 5. Lunch */}
+            <div
+              className={`date-item date-reveal ${
+                step >= 5 ? "show" : ""
+              }`}
+            >
               <div className="date-lunch">
                 <UtensilsCrossed className="date-lunch-icon" />
                 <span>Followed by Lunch</span>
@@ -475,8 +396,11 @@ export default function DateSection() {
             </div>
           </div>
 
+          {/* 6. Location button */}
           <a
-            className="date-location-btn date-reveal"
+            className={`date-location-btn date-reveal ${
+              step >= 6 ? "show" : ""
+            }`}
             href="https://www.google.com/maps/search/?api=1&query=Bhandari+Resort+Onyx+Hall+Indore"
             target="_blank"
             rel="noopener noreferrer"
@@ -486,10 +410,15 @@ export default function DateSection() {
             <span>VIEW VENUE LOCATION</span>
           </a>
 
-          <p className="date-footer date-reveal">
-            Join us for lunch and celebrate <br />
-            this special day
-            with our families.
+          {/* 7. Footer */}
+          <p
+            className={`date-footer date-reveal ${
+              step >= 7 ? "show" : ""
+            }`}
+          >
+            Join us for lunch and celebrate
+            <br />
+            this special day with our families.
           </p>
         </div>
       </section>
