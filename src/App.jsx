@@ -149,7 +149,7 @@ const styles = `
     justify-content: center;
     padding: 24px;
     text-align: center;
-    color: #fff1cf;
+    color:#7B3F00;
     pointer-events: none;
     background: linear-gradient(
       to bottom,
@@ -329,7 +329,7 @@ export default function App() {
                     textStep >= 2 ? "text-visible" : ""
                   }`}
                 >
-                  to Our
+                  
                 </p>
 
                 <h2

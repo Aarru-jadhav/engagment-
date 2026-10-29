@@ -1,7 +1,5 @@
-
 import { useEffect, useState } from "react";
 import coupleBackground from "../assets/image/bg.png";
-import coupleLogo from "../assets/image/logos.png";
 
 export default function Couple() {
   const [step, setStep] = useState(0);
@@ -23,33 +21,33 @@ export default function Couple() {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap');
+
+        .couple-reveal,
+        .couple-reveal * {
+          box-sizing: border-box;
+        }
+
         .couple-reveal {
           position: relative;
           isolation: isolate;
+          width: 100%;
           min-height: 100vh;
           min-height: 100svh;
-          width: 100%;
           overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 24px 22px;
-          box-sizing: border-box;
+          padding: 75px 20px 30px;
           text-align: center;
           color: #70451f;
           background: #fdf4e5;
         }
 
-        .couple-reveal *,
-        .couple-reveal *::before,
-        .couple-reveal *::after {
-          box-sizing: border-box;
-        }
-
         .couple-reveal .couple-bg {
           position: absolute;
           inset: 0;
-          z-index: 0;
+          z-index: -2;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -60,9 +58,34 @@ export default function Couple() {
         .couple-reveal .couple-bg-shade {
           position: absolute;
           inset: 0;
-          z-index: 1;
+          z-index: -1;
           background: rgba(255, 247, 230, 0.10);
           pointer-events: none;
+        }
+
+        /* Mantra stays at the top of the screen */
+        .couple-reveal .couple-mantra {
+          position: absolute;
+          top: 24px;
+          left: 0;
+          right: 0;
+          z-index: 5;
+          width: 100%;
+          margin: 0;
+          padding: 0 12px;
+          text-align: center;
+          font-family: "Noto Serif Devanagari", "Mangal", serif;
+          font-size: clamp(17px, 4.5vw, 23px);
+          font-weight: 600;
+          line-height: 1.5;
+          letter-spacing: 0.2px;
+          color: #854d25;
+          opacity: 0;
+          transform: translateY(-12px);
+          transition:
+            opacity 850ms ease,
+            transform 1000ms cubic-bezier(.2,.7,.2,1);
+          will-change: transform, opacity;
         }
 
         .couple-reveal .couple-content {
@@ -76,9 +99,6 @@ export default function Couple() {
           align-items: center;
         }
 
-        /* Side reveal animations */
-        .couple-reveal .couple-mantra,
-        .couple-reveal .couple-logo,
         .couple-reveal .couple-intro,
         .couple-reveal .couple-name,
         .couple-reveal .couple-family,
@@ -90,82 +110,38 @@ export default function Couple() {
             transform 1000ms cubic-bezier(.2,.7,.2,1);
         }
 
-        .couple-reveal .couple-mantra {
-          transform: translateX(-55px);
-        }
-
-        .couple-reveal .couple-logo {
-          transform: translateX(65px) scale(.82);
-        }
-
         .couple-reveal .couple-intro {
           transform: translateY(22px);
-        }
-
-        .couple-reveal .couple-name {
-          transform: translateX(-45px);
-        }
-
-        .couple-reveal .couple-family {
-          transform: translateX(45px);
-        }
-
-        .couple-reveal .couple-with {
-          transform: translateY(18px);
-        }
-
-        .couple-reveal .show {
-          opacity: 1;
-          transform: translate3d(0, 0, 0) scale(1);
-        }
-
-        /* Mantra */
-        .couple-reveal .couple-mantra {
-          margin: 0 0 14px;
-          font-family: "Noto Serif Devanagari", "Mangal", serif;
-          font-size: clamp(20px, 4.5vw, 27px);
-          font-weight: 600;
-          line-height: 1.5;
-          letter-spacing: .5px;
-          color: #854d25;
-        }
-
-        /* Larger logo */
-        .couple-reveal .couple-logo {
-          display: block;
-          width: clamp(150px, 36vw, 215px);
-          max-height: 210px;
-          height: auto;
-          object-fit: contain;
-          margin: 0 auto 15px;
-        }
-
-        .couple-reveal .couple-intro {
-          margin: 5px 0 16px;
-          font-family: Georgia, "Times New Roman", serif;
-          font-size: clamp(13px, 2.5vw, 17px);
+          margin: 5px 0 14px;
+          font-family: "Cormorant Garamond", Georgia, serif;
+          font-size: clamp(15px, 3.2vw, 19px);
           font-style: italic;
-          line-height: 1.5;
+          line-height: 1.4;
           color: #70451f;
+          font-weight: 700;
         }
 
+        /* One consistent font rule for both names */
         .couple-reveal .couple-name {
           margin: 0;
-          font-family: "Cormorant Garamond", Georgia, serif;
-          font-size: clamp(48px, 10vw, 76px);
-          line-height: 1.05;
+          font-family: "Italianno", "Cormorant Garamond", cursive;
+          font-size: clamp(64px, 13vw, 88px);
+          line-height: 0.95;
           font-weight: 400;
-          font-style: italic;
+          font-style: normal;
           color: #a66d27;
-          text-shadow: 0 1px 1px rgba(255, 255, 255, .55);
+          text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
+          transform: translateY(20px);
         }
 
         .couple-reveal .couple-family {
-          margin: 8px 0 14px;
-          font-family: Georgia, "Times New Roman", serif;
-          font-size: clamp(12px, 2.1vw, 16px);
-          line-height: 1.5;
+          transform: translateX(35px);
+          margin: 8px 0 13px;
+          font-family: "Cormorant Garamond", Georgia, serif;
+          font-size: clamp(13px, 2.8vw, 16px);
+          line-height: 1.4;
           color: #68451f;
+          font-weight: 700;
         }
 
         .couple-reveal .couple-with {
@@ -173,11 +149,13 @@ export default function Couple() {
           align-items: center;
           justify-content: center;
           gap: 16px;
-          margin: 0 0 9px;
-          font-family: Georgia, "Times New Roman", serif;
-          font-size: 22px;
+          margin: 0 0 8px;
+          font-family: "Cormorant Garamond", Georgia, serif;
+          font-size: 24px;
           font-style: italic;
           color: #a67b3e;
+          transform: translateY(18px);
+          font-weight: 700;
         }
 
         .couple-reveal .couple-with::before,
@@ -196,81 +174,77 @@ export default function Couple() {
           transform: scaleX(1);
         }
 
+        .couple-reveal .show {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+
         @media (max-width: 480px) {
           .couple-reveal {
-            padding: 18px 20px;
+            padding: 82px 18px 24px;
           }
 
           .couple-reveal .couple-mantra {
-            font-size: 21px;
-            margin-bottom: 10px;
-          }
-
-          .couple-reveal .couple-logo {
-            width: clamp(140px, 38vw, 165px);
-            max-height: 160px;
-            margin-bottom: 10px;
+            top: 22px;
+            font-size: 19px;
           }
 
           .couple-reveal .couple-intro {
-            font-size: 12px;
-            margin: 3px 0 10px;
+            font-size: 14px;
+            margin: 4px 0 12px;
           }
 
           .couple-reveal .couple-name {
-            font-size: clamp(43px, 12vw, 60px);
+            font-size: clamp(60px, 15vw, 76px);
           }
 
           .couple-reveal .couple-family {
-            font-size: 11px;
+            font-size: 12px;
             line-height: 1.4;
-            margin: 5px 0 9px;
+            margin: 6px 0 10px;
           }
 
           .couple-reveal .couple-with {
-            font-size: 19px;
+            font-size: 21px;
             margin-bottom: 6px;
+            gap: 12px;
           }
         }
 
         @media (max-height: 740px) {
           .couple-reveal {
-            padding-top: 12px;
+            padding-top: 70px;
             padding-bottom: 12px;
           }
 
           .couple-reveal .couple-mantra {
-            font-size: 19px;
-            margin-bottom: 7px;
-          }
-
-          .couple-reveal .couple-logo {
-            width: 125px;
-            max-height: 120px;
-            margin-bottom: 7px;
+            top: 16px;
+            font-size: 18px;
           }
 
           .couple-reveal .couple-intro {
-            margin: 2px 0 7px;
+            font-size: 13px;
+            margin: 2px 0 8px;
           }
 
           .couple-reveal .couple-name {
-            font-size: clamp(38px, 6.5vh, 54px);
+            font-size: clamp(54px, 10vh, 70px);
           }
 
           .couple-reveal .couple-family {
+            font-size: 11px;
             margin: 4px 0 7px;
-            line-height: 1.35;
+            line-height: 1.3;
           }
 
           .couple-reveal .couple-with {
+            font-size: 19px;
             margin-bottom: 4px;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .couple-reveal .couple-mantra,
-          .couple-reveal .couple-logo,
           .couple-reveal .couple-intro,
           .couple-reveal .couple-name,
           .couple-reveal .couple-family,
@@ -278,7 +252,6 @@ export default function Couple() {
           .couple-reveal .couple-with::before,
           .couple-reveal .couple-with::after {
             transition: none;
-            transform: none;
           }
         }
       `}</style>
@@ -293,24 +266,18 @@ export default function Couple() {
 
         <div className="couple-bg-shade" />
 
+        {/* Mantra positioned separately at the top */}
+        <p className={`couple-mantra ${step >= 1 ? "show" : ""}`}>
+          श्री महावीराय नमः
+        </p>
+
         <div className="couple-content">
-          <p className={`couple-mantra ${step >= 1 ? "show" : ""}`}>
-            श्री महावीर नमः
-          </p>
-
-          <img
-            src={coupleLogo}
-            alt="Couple Logo"
-            className={`couple-logo ${step >= 1 ? "show" : ""}`}
-          />
-
           <p className={`couple-intro ${step >= 2 ? "show" : ""}`}>
             With love, we warmly invite you
             <br />
             to the engagement celebration of
           </p>
 
-          {/* Selvi first */}
           <h1 className={`couple-name ${step >= 3 ? "show" : ""}`}>
             Selvi
           </h1>
@@ -325,15 +292,14 @@ export default function Couple() {
             with
           </div>
 
-          {/* Tanay after Selvi */}
           <h1 className={`couple-name ${step >= 6 ? "show" : ""}`}>
             Tanay
           </h1>
 
           <p className={`couple-family ${step >= 7 ? "show" : ""}`}>
-            Grandson of Late Shri Suresh Ji Tara Devi Nabariya
+            Grandson of Late Shri Suresh Ji &amp; Smt. Tara Devi Nabariya
             <br />
-            Son of Mahavirji Nanata Jain
+            Son of Shri Mahavirji Namitaji Jain
           </p>
         </div>
       </section>

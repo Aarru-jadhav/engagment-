@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
-import bg1 from "../assets/image/bg1.jpg";
+import bg1 from "../assets/image/bg copy.png";
 
 export default function Rsvp() {
   const sectionRef = useRef(null);
@@ -80,7 +80,7 @@ export default function Rsvp() {
         /* Both family names in one line at the top */
         .rsvp-family-top {
           position: absolute;
-          top: 18%;
+          top: 36%;
           left: 50%;
           z-index: 3;
           width: 100%;

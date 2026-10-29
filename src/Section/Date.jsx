@@ -29,13 +29,16 @@ export default function DateSection() {
         y: 0,
         x: 0,
       });
+
       gsap.set(section.querySelector(".date-background"), {
         autoAlpha: 1,
         scale: 1,
       });
+
       gsap.set(section.querySelector(".date-gold-line"), {
         scaleX: 1,
       });
+
       return;
     }
 
@@ -60,7 +63,7 @@ export default function DateSection() {
         lunch,
         location,
         footer,
-      ];
+      ].filter(Boolean);
 
       gsap.set(background, {
         autoAlpha: 0,
@@ -69,13 +72,10 @@ export default function DateSection() {
 
       gsap.set(shade, { autoAlpha: 0 });
 
-      gsap.set(
-        reveals.filter(Boolean),
-        {
-          autoAlpha: 0,
-          y: 24,
-        }
-      );
+      gsap.set(reveals, {
+        autoAlpha: 0,
+        y: 24,
+      });
 
       gsap.set([date, venue, location].filter(Boolean), {
         x: -24,
@@ -103,7 +103,6 @@ export default function DateSection() {
         },
       });
 
-      // 1. Background photo
       timeline
         .to(background, {
           autoAlpha: 1,
@@ -119,60 +118,45 @@ export default function DateSection() {
           },
           "<"
         )
-
-        // 2. Heading
         .to(heading, {
           autoAlpha: 1,
           y: 0,
           duration: 0.7,
         })
-
-        // 3. Golden divider
         .to(line, {
           scaleX: 1,
           duration: 0.4,
         })
-
-        // 4. Date
         .to(date, {
           autoAlpha: 1,
           x: 0,
           y: 0,
           duration: 0.7,
         })
-
-        // 5. Time
         .to(time, {
           autoAlpha: 1,
           x: 0,
           y: 0,
           duration: 0.7,
         })
-
-        // 6. Venue
         .to(venue, {
           autoAlpha: 1,
           x: 0,
           y: 0,
           duration: 0.7,
         })
-
-        // 7. Lunch
         .to(lunch, {
           autoAlpha: 1,
           x: 0,
           y: 0,
           duration: 0.7,
         })
-
-        // 8. Location button
         .to(location, {
           autoAlpha: 1,
+          x: 0,
           y: 0,
           duration: 0.7,
         })
-
-        // 9. Footer
         .to(footer, {
           autoAlpha: 1,
           x: 0,
@@ -240,6 +224,7 @@ export default function DateSection() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          transform: translateY(-15px);
         }
 
         .date-reveal {
@@ -247,14 +232,16 @@ export default function DateSection() {
         }
 
         .date-heading {
-          width: 100%;
-          font-size: clamp(25px, 7vw, 34px);
-          line-height: 1.25;
-          font-weight: normal;
-          font-style: italic;
-          margin: 0 0 13px;
-          overflow-wrap: anywhere;
-        }
+  width: 100%;
+  font-size: clamp(25px, 7vw, 34px);
+  line-height: 1.25;
+  font-weight: normal;
+  font-style: italic;
+  margin: 0 0 13px;
+  overflow-wrap: anywhere;
+  position: relative;
+  top: -15px;
+}
 
         .date-gold-line {
           width: 82px;
@@ -332,30 +319,43 @@ export default function DateSection() {
           flex-shrink: 0;
         }
 
+        /* Centered chocolate venue button */
         .date-location-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 6px;
+          align-self: center;
+          gap: 5px;
+          width: fit-content;
           max-width: 100%;
-          min-height: 36px;
-          margin-top: 14px;
-          padding: 9px 15px;
-          background: #704b30;
+          min-height: 32px;
+          margin: 10px auto 0;
+          padding: 7px 13px;
+          background: #5b3928;
           color: #fffaf1;
           text-decoration: none;
           font-family: Arial, sans-serif;
           font-size: 9px;
-          font-weight: 700;
-          letter-spacing: .8px;
-          line-height: 1.4;
-          border: 1px solid rgba(212, 175, 99, .6);
-          border-radius: 8px;
+          font-weight: 600;
+          letter-spacing: 0.6px;
+          line-height: 1.3;
+          text-align: center;
+          border: 1px solid #8b674b;
+          border-radius: 16px;
+          cursor: pointer;
+          transition:
+            background 250ms ease,
+            border-color 250ms ease;
+        }
+
+        .date-location-btn:hover {
+          background: #704832;
+          border-color: #a5773e;
         }
 
         .date-location-btn svg {
-          width: 13px;
-          height: 13px;
+          width: 12px;
+          height: 12px;
           flex-shrink: 0;
         }
 
@@ -381,8 +381,9 @@ export default function DateSection() {
           }
 
           .date-location-btn {
-            margin-top: 12px;
-            padding: 8px 12px;
+            margin: 8px auto 0;
+            padding: 6px 12px;
+            font-size: 8px;
           }
 
           .date-footer {
@@ -398,7 +399,7 @@ export default function DateSection() {
           }
 
           .date-content {
-            transform: scale(.9);
+            transform: scale(.9) translateY(-15px);
           }
 
           .date-details {
@@ -422,6 +423,10 @@ export default function DateSection() {
             opacity: 1 !important;
             transform: none !important;
           }
+
+          .date-location-btn {
+            transition: none;
+          }
         }
       `}</style>
 
@@ -439,7 +444,6 @@ export default function DateSection() {
           <div className="date-details">
             <div className="date-item date-reveal date-date">
               <CalendarDays className="date-icon" />
-              <div className="date-label">THE DATE</div>
               <p className="date-value">
                 Sunday, 1 November 2026
               </p>
@@ -447,13 +451,11 @@ export default function DateSection() {
 
             <div className="date-item date-reveal date-time">
               <Clock className="date-icon" />
-              <div className="date-label">THE TIME</div>
               <p className="date-value">12:15 PM Onwards</p>
             </div>
 
             <div className="date-item date-reveal date-venue-item">
               <MapPin className="date-icon" />
-              <div className="date-label">THE VENUE</div>
               <p className="date-value">Bhandari Resort</p>
               <div className="date-venue-name">Onyx Hall</div>
             </div>
@@ -470,9 +472,10 @@ export default function DateSection() {
             className="date-location-btn date-reveal"
             href="https://www.google.com/maps/search/?api=1&query=Bhandari+Resort+Onyx+Hall+Indore"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label="View Bhandari Resort Onyx Hall on Google Maps"
           >
-            <MapPin />
+            <MapPin aria-hidden="true" />
             <span>VIEW VENUE LOCATION</span>
           </a>
 
