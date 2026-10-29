@@ -89,7 +89,7 @@ export default function Couple() {
           will-change: transform, opacity;
         }
 
-        /* All content from With Love to Tanay's family shifted down */
+        /* Main content */
         .couple-reveal .couple-content {
           position: relative;
           z-index: 2;
@@ -182,6 +182,57 @@ export default function Couple() {
           transform: translate3d(0, 0, 0);
         }
 
+        /* Dark scroll text and arrow */
+        .couple-reveal .couple-scroll-indicator {
+          position: absolute;
+          bottom: 22px;
+          left: 50%;
+          z-index: 6;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          transform: translateX(-50%);
+          color: #3b2418;
+          opacity: 0;
+          transition: opacity 800ms ease;
+          pointer-events: none;
+        }
+
+        .couple-reveal .couple-scroll-indicator.show {
+          opacity: 1;
+        }
+
+        .couple-reveal .couple-scroll-text {
+          font-family: "Cormorant Garamond", Georgia, serif;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: #3b2418;
+        }
+
+        .couple-reveal .couple-scroll-arrow {
+          width: 18px;
+          height: 18px;
+          border-right: 2px solid #3b2418;
+          border-bottom: 2px solid #3b2418;
+          transform: rotate(45deg);
+          animation: coupleScrollDown 1.5s ease-in-out infinite;
+        }
+
+        @keyframes coupleScrollDown {
+          0%, 100% {
+            transform: translateY(-3px) rotate(45deg);
+            opacity: 0.5;
+          }
+
+          50% {
+            transform: translateY(4px) rotate(45deg);
+            opacity: 1;
+          }
+        }
+
         @media (max-width: 480px) {
           .couple-reveal {
             padding: 82px 18px 24px;
@@ -211,6 +262,19 @@ export default function Couple() {
             font-size: 21px;
             margin-bottom: 6px;
             gap: 12px;
+          }
+
+          .couple-reveal .couple-scroll-indicator {
+            bottom: 14px;
+          }
+
+          .couple-reveal .couple-scroll-text {
+            font-size: 10px;
+          }
+
+          .couple-reveal .couple-scroll-arrow {
+            width: 15px;
+            height: 15px;
           }
         }
 
@@ -253,8 +317,11 @@ export default function Couple() {
           .couple-reveal .couple-family,
           .couple-reveal .couple-with,
           .couple-reveal .couple-with::before,
-          .couple-reveal .couple-with::after {
+          .couple-reveal .couple-with::after,
+          .couple-reveal .couple-scroll-indicator,
+          .couple-reveal .couple-scroll-arrow {
             transition: none;
+            animation: none;
           }
         }
       `}</style>
@@ -304,6 +371,15 @@ export default function Couple() {
             <br />
             Son of Shri Mahavirji Namitaji Jain
           </p>
+        </div>
+
+        {/* Animated scroll-down indicator */}
+        <div
+          className={`couple-scroll-indicator ${step >= 7 ? "show" : ""}`}
+          aria-hidden="true"
+        >
+          <span className="couple-scroll-text">Scroll</span>
+          <span className="couple-scroll-arrow" />
         </div>
       </section>
     </>
