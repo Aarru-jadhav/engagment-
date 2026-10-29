@@ -253,7 +253,7 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-family {
-            font-size: 20px;
+            font-size: 16px;
             line-height: 1.4;
             margin: 6px 0 10px;
           }
