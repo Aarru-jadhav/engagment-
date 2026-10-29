@@ -232,16 +232,16 @@ export default function DateSection() {
         }
 
         .date-heading {
-  width: 100%;
-  font-size: clamp(25px, 7vw, 34px);
-  line-height: 1.25;
-  font-weight: normal;
-  font-style: italic;
-  margin: 0 0 13px;
-  overflow-wrap: anywhere;
-  position: relative;
-  top: -15px;
-}
+          width: 100%;
+          font-size: clamp(25px, 7vw, 34px);
+          line-height: 1.25;
+          font-weight: normal;
+          font-style: italic;
+          margin: 0 0 13px;
+          overflow-wrap: anywhere;
+          position: relative;
+          top: -15px;
+        }
 
         .date-gold-line {
           width: 82px;
@@ -319,7 +319,6 @@ export default function DateSection() {
           flex-shrink: 0;
         }
 
-        /* Centered chocolate venue button */
         .date-location-btn {
           display: inline-flex;
           align-items: center;
@@ -359,11 +358,12 @@ export default function DateSection() {
           flex-shrink: 0;
         }
 
+        /* Footer spacing reduced */
         .date-footer {
           max-width: 300px;
-          margin: 10px auto 0;
+          margin: 5px auto 0;
           font-size: 11px;
-          line-height: 1.5;
+          line-height: 1.4;
         }
 
         @media (max-width: 380px) {
@@ -388,10 +388,12 @@ export default function DateSection() {
 
           .date-footer {
             font-size: 10px;
-            margin-top: 8px;
+            margin-top: 4px;
+            line-height: 1.3;
           }
         }
 
+        /* Short-height phones */
         @media (max-height: 650px) {
           .date-section {
             padding-top: 10px;
@@ -399,7 +401,7 @@ export default function DateSection() {
           }
 
           .date-content {
-            transform: scale(.9) translateY(-15px);
+            transform: scale(.9) translateY(-25px);
           }
 
           .date-details {
@@ -412,6 +414,11 @@ export default function DateSection() {
 
           .date-location-btn {
             margin-top: 8px;
+          }
+
+          .date-footer {
+            margin-top: 4px;
+            line-height: 1.3;
           }
         }
 

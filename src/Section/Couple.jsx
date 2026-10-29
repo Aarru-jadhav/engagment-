@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import coupleBackground from "../assets/image/bg.png";
 
@@ -63,7 +64,7 @@ export default function Couple() {
           pointer-events: none;
         }
 
-        /* Mantra stays at the top of the screen */
+        /* Mantra remains at the top */
         .couple-reveal .couple-mantra {
           position: absolute;
           top: 24px;
@@ -88,6 +89,7 @@ export default function Couple() {
           will-change: transform, opacity;
         }
 
+        /* All content from With Love to Tanay's family shifted down */
         .couple-reveal .couple-content {
           position: relative;
           z-index: 2;
@@ -97,6 +99,7 @@ export default function Couple() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          transform: translateY(25px);
         }
 
         .couple-reveal .couple-intro,
@@ -121,7 +124,7 @@ export default function Couple() {
           font-weight: 700;
         }
 
-        /* One consistent font rule for both names */
+        /* Same font for both names */
         .couple-reveal .couple-name {
           margin: 0;
           font-family: "Italianno", "Cormorant Garamond", cursive;
@@ -266,7 +269,7 @@ export default function Couple() {
 
         <div className="couple-bg-shade" />
 
-        {/* Mantra positioned separately at the top */}
+        {/* Mantra stays at the top */}
         <p className={`couple-mantra ${step >= 1 ? "show" : ""}`}>
           श्री महावीराय नमः
         </p>
