@@ -46,7 +46,7 @@ export default function Rsvp() {
           <p className="rsvp-family">
             Kataria Family
             <span className="family-divider"> &amp; </span>
-            Nabariya Family
+            Nabaria Family
           </p>
 
           {/* Main Message */}

@@ -249,11 +249,11 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-name {
-            font-size: clamp(60px, 15vw, 76px);
+            font-size: clamp(48px, 15vw, 76px);
           }
 
           .couple-reveal .couple-family {
-            font-size: 12px;
+            font-size: 20px;
             line-height: 1.4;
             margin: 6px 0 10px;
           }
@@ -367,9 +367,9 @@ export default function Couple() {
           </h1>
 
           <p className={`couple-family ${step >= 7 ? "show" : ""}`}>
-            Grandson of Late Shri Suresh Ji &amp; Smt. Tara Devi Nabariya
+            Grandson of Late Shri Suresh Ji &amp; Smt. Tara Devi Nabaria
             <br />
-            Son of Shri Mahavirji &amp; Smt. Namitaji Nabariya
+            Son of Shri Mahavirji &amp; Smt. Namitaji Nabaria
           </p>
         </div>
 

@@ -185,7 +185,7 @@ const styles = `
 
   .welcome-heading {
     max-width: 700px;
-    font-size: clamp(25px, 5vw, 48px);
+    font-size: clamp(18px, 5vw, 48px);
     line-height: 1.25;
   }
 
