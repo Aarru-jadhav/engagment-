@@ -318,22 +318,23 @@ export default function App() {
               alt="Engagement entrance"
             />
 
-            {isOpening && (
-              <video
-                ref={videoRef}
-                className="gate-video video-visible"
-                src={gateVideo}
-                playsInline
-                preload="auto"
-                onLoadedData={handleVideoReady}
-                onEnded={handleVideoEnd}
-                onError={() => {
-                  console.error(
-                    "Opening video failed to load. Check the file path."
-                  );
-                }}
-              />
-            )}
+           {isOpening && (
+  <video
+    ref={videoRef}
+    className="gate-video video-visible"
+    src={gateVideo}
+    playsInline
+    preload="auto"
+    muted
+    onLoadedData={handleVideoReady}
+    onEnded={handleVideoEnd}
+    onError={() => {
+      console.error(
+        "Opening video failed to load. Check the file path."
+      );
+    }}
+  />
+)}
 
             {isOpening && (
               <div className="welcome-overlay">

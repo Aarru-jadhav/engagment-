@@ -289,7 +289,7 @@ export default function Couple() {
         </div>
 
         <h1 className={`couple-name ${step >= 5 ? "show" : ""}`}>
-          Selin
+          Selvi
         </h1>
 
         <p className={`couple-family ${step >= 6 ? "show" : ""}`}>
