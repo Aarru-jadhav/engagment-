@@ -443,7 +443,7 @@ export default function DateSection() {
 
         <div className="date-content">
           <h1 className="date-heading date-reveal">
-            A Celebration of Togetherness
+            The Celebration 
           </h1>
 
           <div className="date-gold-line date-reveal" />
@@ -487,7 +487,8 @@ export default function DateSection() {
           </a>
 
           <p className="date-footer date-reveal">
-            Join us for lunch and celebrate this special day
+            Join us for lunch and celebrate <br />
+            this special day
             with our families.
           </p>
         </div>

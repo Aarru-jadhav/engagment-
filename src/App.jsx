@@ -7,8 +7,7 @@ import Rsvp from "./Section/Rsvp";
 
 import gatePoster from "./assets/image/gate.png";
 import gateVideo from "./assets/video/engagment-video-optimized.mp4";
-
-const weddingAudio = "/audio/audio.mp3";
+import weddingAudio from "./assets/audio/audio.mp3";
 
 const styles = `
   * {
@@ -248,18 +247,19 @@ export default function App() {
     clearTimers();
     startedRef.current = false;
     setTextStep(0);
-    setIsOpening(true);
 
     const audio = audioRef.current;
 
     if (audio) {
       audio.currentTime = 0;
-      audio.volume = 0.7;
+      audio.volume = 1;
 
       audio.play().catch((error) => {
-        console.error("Audio playback failed:", error);
+        console.error("Wedding audio playback failed:", error);
       });
     }
+
+    setIsOpening(true);
   };
 
   const handleVideoReady = async () => {
@@ -299,7 +299,7 @@ export default function App() {
     setIsOpening(false);
     setShowContent(true);
 
-    // Song keeps playing after the invitation opens.
+    // Audio continues playing throughout the invitation.
     window.scrollTo({
       top: 0,
       behavior: "auto",
@@ -311,12 +311,17 @@ export default function App() {
       <style>{styles}</style>
 
       <main className="wedding-page">
-        {/* Background song remains mounted across all sections */}
+        {/* Wedding music stays mounted across all sections */}
         <audio
           ref={audioRef}
           src={weddingAudio}
           preload="auto"
           loop
+          onError={() => {
+            console.error(
+              "Wedding MP3 could not load. Check src/assets/audio/audio.mp3."
+            );
+          }}
         />
 
         {!showContent ? (
