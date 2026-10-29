@@ -14,10 +14,9 @@ export default function DateSection() {
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
 
-  // Start animation when Date section enters the screen
+  // Start animation when the section enters the viewport
   useEffect(() => {
     const section = sectionRef.current;
-
     if (!section || started) return;
 
     const observer = new IntersectionObserver(
@@ -27,17 +26,14 @@ export default function DateSection() {
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.15,
-      }
+      { threshold: 0.1 }
     );
 
     observer.observe(section);
-
     return () => observer.disconnect();
   }, [started]);
 
-  // Reveal each element one by one, with a 1-second gap
+  // Reveal items one by one with a 1-second gap
   useEffect(() => {
     if (!started) return;
 
@@ -68,7 +64,7 @@ export default function DateSection() {
           width: 100%;
           min-height: 100vh;
           min-height: 100svh;
-          padding: 22px 16px;
+          padding: clamp(24px, 5vh, 48px) 16px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -79,13 +75,14 @@ export default function DateSection() {
           font-family: Georgia, "Times New Roman", serif;
         }
 
+        /* Responsive background */
         .date-background {
           position: absolute;
           z-index: -2;
           inset: 0;
           background-image: url("${bg2}");
           background-size: cover;
-          background-position: center top;
+          background-position: center center;
           background-repeat: no-repeat;
         }
 
@@ -97,17 +94,19 @@ export default function DateSection() {
           pointer-events: none;
         }
 
+        /* Main content */
         .date-content {
           position: relative;
           width: 100%;
-          max-width: 370px;
+          max-width: 420px;
           margin: auto;
           display: flex;
           flex-direction: column;
           align-items: center;
-          transform: translateY(-15px);
+          transform: translateY(12px);
         }
 
+        /* Reveal animation */
         .date-reveal {
           opacity: 0;
           visibility: hidden;
@@ -129,11 +128,13 @@ export default function DateSection() {
             visibility 0s;
         }
 
+        /* Golden decorative line */
         .date-gold-line {
           width: 82px;
+          max-width: 35%;
           height: 1px;
           flex-shrink: 0;
-          margin: 0 auto 12px;
+          margin: 0 auto 16px;
           background: linear-gradient(
             90deg,
             transparent,
@@ -160,12 +161,13 @@ export default function DateSection() {
             visibility 0s;
         }
 
+        /* Date details */
         .date-details {
           width: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: clamp(12px, 2.3vh, 19px);
+          gap: clamp(14px, 2.5vh, 22px);
           padding: 5px 0 0;
         }
 
@@ -174,26 +176,30 @@ export default function DateSection() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          min-width: 0;
         }
 
         .date-icon {
-          width: 21px;
-          height: 21px;
-          margin-bottom: 5px;
+          width: 22px;
+          height: 22px;
+          margin-bottom: 6px;
           color: #a5773e;
           stroke-width: 1.8;
+          flex-shrink: 0;
         }
 
         .date-value {
-          font-size: 14px;
-          line-height: 1.4;
+          max-width: 100%;
+          font-size: clamp(13px, 2.5vw, 16px);
+          line-height: 1.5;
           font-weight: bold;
           margin: 0;
+          overflow-wrap: anywhere;
         }
 
         .date-venue-name {
-          font-size: 14px;
-          line-height: 1.4;
+          font-size: clamp(13px, 2.5vw, 15px);
+          line-height: 1.5;
           margin-top: 3px;
         }
 
@@ -201,41 +207,43 @@ export default function DateSection() {
           display: flex;
           justify-content: center;
           align-items: center;
+          flex-wrap: wrap;
           gap: 8px;
-          font-size: 16px;
+          font-size: clamp(14px, 3vw, 17px);
           font-style: italic;
-          line-height: 1.4;
+          line-height: 1.5;
         }
 
         .date-lunch-icon {
-          width: 18px;
-          height: 18px;
+          width: 19px;
+          height: 19px;
           color: #946b3d;
           flex-shrink: 0;
         }
 
+        /* Location button */
         .date-location-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           align-self: center;
-          gap: 5px;
+          gap: 7px;
           width: fit-content;
           max-width: 100%;
-          min-height: 32px;
-          margin: 10px auto 0;
-          padding: 7px 13px;
+          min-height: 40px;
+          margin: 18px auto 0;
+          padding: 9px 16px;
           background: #5b3928;
           color: #fffaf1;
           text-decoration: none;
           font-family: Arial, sans-serif;
-          font-size: 9px;
+          font-size: clamp(9px, 2vw, 11px);
           font-weight: 600;
           letter-spacing: 0.6px;
-          line-height: 1.3;
+          line-height: 1.4;
           text-align: center;
           border: 1px solid #8b674b;
-          border-radius: 16px;
+          border-radius: 22px;
           cursor: pointer;
           transition:
             background 250ms ease,
@@ -259,70 +267,171 @@ export default function DateSection() {
           border-color: #a5773e;
         }
 
+        .date-location-btn:focus-visible {
+          outline: 2px solid #a5773e;
+          outline-offset: 4px;
+        }
+
         .date-location-btn svg {
-          width: 12px;
-          height: 12px;
+          width: 14px;
+          height: 14px;
           flex-shrink: 0;
         }
 
+        /* Closing text */
         .date-footer {
-          max-width: 300px;
-          margin: 5px auto 0;
-          font-size: 11px;
-          line-height: 1.4;
+          width: 100%;
+          max-width: 320px;
+          margin: 12px auto 0;
+          font-size: clamp(11px, 2.5vw, 13px);
+          line-height: 1.6;
+          overflow-wrap: anywhere;
         }
 
+        /* Small mobile phones */
         @media (max-width: 380px) {
           .date-section {
-            padding: 18px 13px;
-          }
-
-          .date-details {
-            gap: 12px;
-          }
-
-          .date-location-btn {
-            margin: 8px auto 0;
-            padding: 6px 12px;
-            font-size: 8px;
-          }
-
-          .date-footer {
-            font-size: 10px;
-            margin-top: 4px;
-            line-height: 1.3;
-          }
-        }
-
-        @media (max-height: 650px) {
-          .date-section {
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding: 24px 14px;
           }
 
           .date-content {
-            transform: scale(.9) translateY(-15px);
+            max-width: 100%;
+            transform: translateY(8px);
+          }
+
+          .date-gold-line {
+            margin-bottom: 12px;
           }
 
           .date-details {
-            gap: 9px;
+            gap: 14px;
+          }
+
+          .date-icon {
+            width: 20px;
+            height: 20px;
+          }
+
+          .date-value {
+            font-size: 13px;
+          }
+
+          .date-venue-name {
+            font-size: 13px;
           }
 
           .date-location-btn {
-            margin-top: 8px;
+            min-height: 38px;
+            margin-top: 14px;
+            padding: 8px 13px;
+            font-size: 9px;
           }
 
           .date-footer {
-            margin-top: 4px;
-            line-height: 1.3;
+            max-width: 280px;
+            margin-top: 10px;
+            font-size: 11px;
           }
         }
 
+        /* Tablets */
+        @media (min-width: 600px) {
+          .date-section {
+            padding: 40px 28px;
+          }
+
+          .date-content {
+            max-width: 460px;
+            transform: translateY(12px);
+          }
+
+          .date-details {
+            gap: 22px;
+          }
+
+          .date-icon {
+            width: 24px;
+            height: 24px;
+          }
+
+          .date-location-btn {
+            margin-top: 22px;
+            padding: 10px 20px;
+          }
+        }
+
+        /* Desktop and large screens */
+        @media (min-width: 1024px) {
+          .date-section {
+            padding: 48px 32px;
+          }
+
+          .date-content {
+            max-width: 480px;
+          }
+
+          .date-details {
+            gap: 20px;
+          }
+
+          .date-value {
+            font-size: 16px;
+          }
+
+          .date-venue-name {
+            font-size: 15px;
+          }
+
+          .date-footer {
+            max-width: 340px;
+            font-size: 13px;
+          }
+        }
+
+        /* Short screens: reduce spacing without clipping */
+        @media (max-height: 700px) {
+          .date-section {
+            padding-top: 18px;
+            padding-bottom: 18px;
+          }
+
+          .date-content {
+            transform: translateY(0);
+          }
+
+          .date-details {
+            gap: 10px;
+          }
+
+          .date-gold-line {
+            margin-bottom: 9px;
+          }
+
+          .date-icon {
+            width: 19px;
+            height: 19px;
+            margin-bottom: 3px;
+          }
+
+          .date-location-btn {
+            min-height: 34px;
+            margin-top: 10px;
+            padding: 7px 13px;
+          }
+
+          .date-footer {
+            margin-top: 7px;
+            line-height: 1.4;
+          }
+        }
+
+        /* Reduced motion accessibility */
         @media (prefers-reduced-motion: reduce) {
           .date-reveal,
           .date-gold-line,
           .date-location-btn {
             transition: none !important;
+            will-change: auto;
           }
         }
       `}</style>

@@ -1,5 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
+import { Music2, VolumeX } from "lucide-react";
 
 import Couple from "./Section/Couple";
 import DateSection from "./Section/Date";
@@ -29,6 +30,7 @@ const styles = `
   .wedding-page {
     width: 100%;
     min-height: 100vh;
+    min-height: 100svh;
     overflow-x: clip;
     background: #fdfbf7;
   }
@@ -173,7 +175,7 @@ const styles = `
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(20px, 4vw, 34px);
     font-weight: 400;
-    color:#7B3F00;
+    color: #7B3F00;
   }
 
   .welcome-line.text-visible {
@@ -185,6 +187,59 @@ const styles = `
     max-width: 700px;
     font-size: clamp(25px, 5vw, 48px);
     line-height: 1.25;
+  }
+
+  /* Floating Music Button */
+
+  .music-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 22px;
+    z-index: 99999;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d4af63;
+    border-radius: 50%;
+    background: rgba(54, 35, 22, 0.94);
+    color: #f5d58b;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.25s ease,
+      background 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .music-toggle:hover {
+    transform: scale(1.08);
+    background: #704832;
+  }
+
+  .music-toggle:focus-visible {
+    outline: 2px solid #d4af63;
+    outline-offset: 4px;
+  }
+
+  .music-toggle svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .music-toggle.music-playing svg {
+    animation: music-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes music-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
   }
 
   @media (max-width: 600px) {
@@ -208,13 +263,25 @@ const styles = `
     .welcome-heading {
       max-width: 330px;
     }
+
+    .music-toggle {
+      right: 14px;
+      bottom: 16px;
+      width: 44px;
+      height: 44px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .gate-poster,
     .welcome-line,
-    .blob-btn {
+    .blob-btn,
+    .music-toggle {
       transition-duration: 0.01ms;
+    }
+
+    .music-toggle.music-playing svg {
+      animation: none;
     }
 
     html {
@@ -227,6 +294,7 @@ export default function App() {
   const [isOpening, setIsOpening] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [textStep, setTextStep] = useState(0);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   const videoRef = useRef(null);
   const audioRef = useRef(null);
@@ -244,7 +312,28 @@ export default function App() {
     };
   }, []);
 
-  const handleOpen = () => {
+  // Turn music ON or OFF
+  const toggleMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused) {
+      audio.pause();
+      setIsMusicPlaying(false);
+      return;
+    }
+
+    try {
+      await audio.play();
+      setIsMusicPlaying(true);
+    } catch (error) {
+      console.error("Wedding music playback failed:", error);
+      setIsMusicPlaying(false);
+    }
+  };
+
+  // Open the invitation and start music
+  const handleOpen = async () => {
     if (isOpening || showContent) return;
 
     clearTimers();
@@ -253,18 +342,22 @@ export default function App() {
 
     const audio = audioRef.current;
 
-    if (audio) {
-      audio.currentTime = 0;
-      audio.volume = 1;
-
-      audio.play().catch((error) => {
+    if (audio && audio.paused) {
+      try {
+        await audio.play();
+        setIsMusicPlaying(true);
+      } catch (error) {
         console.error("Wedding audio playback failed:", error);
-      });
+        setIsMusicPlaying(false);
+      }
+    } else if (audio) {
+      setIsMusicPlaying(true);
     }
 
     setIsOpening(true);
   };
 
+  // Start opening video once it is ready
   const handleVideoReady = async () => {
     const video = videoRef.current;
 
@@ -275,10 +368,10 @@ export default function App() {
     try {
       video.currentTime = 0;
       video.muted = true;
-
       await video.play();
     } catch (error) {
       console.error("Video playback failed:", error);
+
       startedRef.current = false;
       setIsOpening(false);
       setTextStep(0);
@@ -287,12 +380,16 @@ export default function App() {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
+
+      setIsMusicPlaying(false);
     }
   };
 
+  // Show invitation content when video ends
   const handleVideoEnd = () => {
     clearTimers();
     setTextStep(3);
+
     timersRef.current.push(
       setTimeout(() => {
         setIsOpening(false);
@@ -306,6 +403,15 @@ export default function App() {
     );
   };
 
+  // Keep icon state in sync with the actual audio
+  const handleAudioPlay = () => {
+    setIsMusicPlaying(true);
+  };
+
+  const handleAudioPause = () => {
+    setIsMusicPlaying(false);
+  };
+
   return (
     <>
       <style>{styles}</style>
@@ -316,12 +422,31 @@ export default function App() {
           src={weddingAudio}
           preload="auto"
           loop
+          onPlay={handleAudioPlay}
+          onPause={handleAudioPause}
           onError={() => {
             console.error(
               "Wedding MP3 could not load. Check src/assets/audio/audio.mp3."
             );
+            setIsMusicPlaying(false);
           }}
         />
+
+        {/* Floating music ON/OFF button */}
+        <button
+          type="button"
+          className={`music-toggle ${
+            isMusicPlaying ? "music-playing" : ""
+          }`}
+          onClick={toggleMusic}
+          aria-label={
+            isMusicPlaying ? "Turn music off" : "Turn music on"
+          }
+          aria-pressed={isMusicPlaying}
+          title={isMusicPlaying ? "Turn music off" : "Turn music on"}
+        >
+          {isMusicPlaying ? <Music2 /> : <VolumeX />}
+        </button>
 
         {!showContent ? (
           <section className="gate-screen">
