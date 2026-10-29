@@ -3,19 +3,17 @@ import { useEffect, useState } from "react";
 import coupleBackground from "../assets/image/bg.png";
 import coupleLogo from "../assets/image/logos.png";
 
-
-
 export default function Couple() {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setStep(1), 700),
-      setTimeout(() => setStep(2), 1700),
-      setTimeout(() => setStep(3), 2700),
-      setTimeout(() => setStep(4), 3800),
-      setTimeout(() => setStep(5), 4900),
-      setTimeout(() => setStep(6), 5900),
+      setTimeout(() => setStep(1), 300),
+      setTimeout(() => setStep(2), 700),
+      setTimeout(() => setStep(3), 1200),
+      setTimeout(() => setStep(4), 1700),
+      setTimeout(() => setStep(5), 2200),
+      setTimeout(() => setStep(6), 2700),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -34,7 +32,7 @@ export default function Couple() {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 28px 22px;
+          padding: 24px 22px;
           box-sizing: border-box;
           text-align: center;
           color: #70451f;
@@ -51,7 +49,6 @@ export default function Couple() {
           position: absolute;
           inset: 0;
           z-index: 0;
-          display: block;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -78,14 +75,15 @@ export default function Couple() {
           align-items: center;
         }
 
+        .couple-reveal .couple-mantra,
         .couple-reveal .couple-logo,
         .couple-reveal .couple-intro,
         .couple-reveal .couple-name,
         .couple-reveal .couple-family,
         .couple-reveal .couple-with {
           opacity: 0;
-          transform: translateY(18px);
-          transition: opacity 1s ease, transform 1s ease;
+          transform: translateY(14px);
+          transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
         .couple-reveal .show {
@@ -93,22 +91,33 @@ export default function Couple() {
           transform: translateY(0);
         }
 
-        /* Logo above the couple's names */
+        /* Jain mantra at the very top */
+        .couple-reveal .couple-mantra {
+          margin: 0 0 14px;
+          font-family: "Noto Serif Devanagari", "Mangal", serif;
+          font-size: clamp(20px, 4.5vw, 27px);
+          font-weight: 600;
+          line-height: 1.5;
+          letter-spacing: 0.5px;
+          color: #854d25;
+        }
+
+        /* Larger couple logo */
         .couple-reveal .couple-logo {
           display: block;
-          width: clamp(70px, 18vw, 110px);
-          max-height: 110px;
+          width: clamp(115px, 30vw, 175px);
+          max-height: 175px;
           height: auto;
           object-fit: contain;
-          margin: 0 auto 14px;
+          margin: 0 auto 15px;
         }
 
         .couple-reveal .couple-intro {
-          margin: 8px 0 20px;
+          margin: 5px 0 16px;
           font-family: Georgia, "Times New Roman", serif;
           font-size: clamp(13px, 2.5vw, 17px);
           font-style: italic;
-          line-height: 1.55;
+          line-height: 1.5;
           color: #70451f;
         }
 
@@ -124,10 +133,10 @@ export default function Couple() {
         }
 
         .couple-reveal .couple-family {
-          margin: 12px 0 22px;
+          margin: 8px 0 14px;
           font-family: Georgia, "Times New Roman", serif;
           font-size: clamp(12px, 2.1vw, 16px);
-          line-height: 1.65;
+          line-height: 1.5;
           color: #68451f;
         }
 
@@ -136,7 +145,7 @@ export default function Couple() {
           align-items: center;
           justify-content: center;
           gap: 16px;
-          margin: 2px 0 14px;
+          margin: 0 0 9px;
           font-family: Georgia, "Times New Roman", serif;
           font-size: 22px;
           font-style: italic;
@@ -154,18 +163,23 @@ export default function Couple() {
 
         @media (max-width: 480px) {
           .couple-reveal {
-            padding: 22px 24px;
+            padding: 18px 20px;
+          }
+
+          .couple-reveal .couple-mantra {
+            font-size: 21px;
+            margin-bottom: 10px;
           }
 
           .couple-reveal .couple-logo {
-            width: 70px;
-            max-height: 75px;
-            margin-bottom: 9px;
+            width: clamp(110px, 32vw, 145px);
+            max-height: 140px;
+            margin-bottom: 10px;
           }
 
           .couple-reveal .couple-intro {
             font-size: 12px;
-            margin: 5px 0 14px;
+            margin: 3px 0 10px;
           }
 
           .couple-reveal .couple-name {
@@ -174,30 +188,35 @@ export default function Couple() {
 
           .couple-reveal .couple-family {
             font-size: 11px;
-            line-height: 1.5;
-            margin: 8px 0 15px;
+            line-height: 1.4;
+            margin: 5px 0 9px;
           }
 
           .couple-reveal .couple-with {
             font-size: 19px;
-            margin: 0 0 9px;
+            margin-bottom: 6px;
           }
         }
 
         @media (max-height: 740px) {
           .couple-reveal {
-            padding-top: 16px;
-            padding-bottom: 16px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+          }
+
+          .couple-reveal .couple-mantra {
+            font-size: 19px;
+            margin-bottom: 7px;
           }
 
           .couple-reveal .couple-logo {
-            width: 65px;
-            max-height: 65px;
-            margin-bottom: 6px;
+            width: 100px;
+            max-height: 95px;
+            margin-bottom: 7px;
           }
 
           .couple-reveal .couple-intro {
-            margin: 3px 0 9px;
+            margin: 2px 0 7px;
           }
 
           .couple-reveal .couple-name {
@@ -205,16 +224,17 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-family {
-            margin: 5px 0 9px;
-            line-height: 1.4;
+            margin: 4px 0 7px;
+            line-height: 1.35;
           }
 
           .couple-reveal .couple-with {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
+          .couple-reveal .couple-mantra,
           .couple-reveal .couple-logo,
           .couple-reveal .couple-intro,
           .couple-reveal .couple-name,
@@ -238,7 +258,10 @@ export default function Couple() {
 
       {/* Couple details */}
       <div className="couple-content">
-        {/* Logo */}
+        <p className={`couple-mantra ${step >= 1 ? "show" : ""}`}>
+          श्री महावीर नमः
+        </p>
+
         <img
           src={coupleLogo}
           alt="Couple Logo"
