@@ -9,18 +9,19 @@ export default function Couple() {
   useEffect(() => {
     const timers = [
       setTimeout(() => setStep(1), 300),
-      setTimeout(() => setStep(2), 700),
-      setTimeout(() => setStep(3), 1200),
-      setTimeout(() => setStep(4), 1700),
-      setTimeout(() => setStep(5), 2200),
-      setTimeout(() => setStep(6), 2700),
+      setTimeout(() => setStep(2), 1300),
+      setTimeout(() => setStep(3), 2300),
+      setTimeout(() => setStep(4), 3300),
+      setTimeout(() => setStep(5), 4300),
+      setTimeout(() => setStep(6), 5300),
+      setTimeout(() => setStep(7), 6300),
     ];
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
-    <section className="couple-reveal">
+    <>
       <style>{`
         .couple-reveal {
           position: relative;
@@ -75,6 +76,7 @@ export default function Couple() {
           align-items: center;
         }
 
+        /* Side reveal animations */
         .couple-reveal .couple-mantra,
         .couple-reveal .couple-logo,
         .couple-reveal .couple-intro,
@@ -82,31 +84,57 @@ export default function Couple() {
         .couple-reveal .couple-family,
         .couple-reveal .couple-with {
           opacity: 0;
-          transform: translateY(14px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
+          will-change: transform, opacity;
+          transition:
+            opacity 850ms ease,
+            transform 1000ms cubic-bezier(.2,.7,.2,1);
+        }
+
+        .couple-reveal .couple-mantra {
+          transform: translateX(-55px);
+        }
+
+        .couple-reveal .couple-logo {
+          transform: translateX(65px) scale(.82);
+        }
+
+        .couple-reveal .couple-intro {
+          transform: translateY(22px);
+        }
+
+        .couple-reveal .couple-name {
+          transform: translateX(-45px);
+        }
+
+        .couple-reveal .couple-family {
+          transform: translateX(45px);
+        }
+
+        .couple-reveal .couple-with {
+          transform: translateY(18px);
         }
 
         .couple-reveal .show {
           opacity: 1;
-          transform: translateY(0);
+          transform: translate3d(0, 0, 0) scale(1);
         }
 
-        /* Jain mantra at the very top */
+        /* Mantra */
         .couple-reveal .couple-mantra {
           margin: 0 0 14px;
           font-family: "Noto Serif Devanagari", "Mangal", serif;
           font-size: clamp(20px, 4.5vw, 27px);
           font-weight: 600;
           line-height: 1.5;
-          letter-spacing: 0.5px;
+          letter-spacing: .5px;
           color: #854d25;
         }
 
-        /* Larger couple logo */
+        /* Larger logo */
         .couple-reveal .couple-logo {
           display: block;
-          width: clamp(115px, 30vw, 175px);
-          max-height: 175px;
+          width: clamp(150px, 36vw, 215px);
+          max-height: 210px;
           height: auto;
           object-fit: contain;
           margin: 0 auto 15px;
@@ -129,7 +157,7 @@ export default function Couple() {
           font-weight: 400;
           font-style: italic;
           color: #a66d27;
-          text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
+          text-shadow: 0 1px 1px rgba(255, 255, 255, .55);
         }
 
         .couple-reveal .couple-family {
@@ -159,6 +187,13 @@ export default function Couple() {
           height: 1px;
           flex-shrink: 0;
           background: #c09a5c;
+          transform: scaleX(0);
+          transition: transform 700ms ease 300ms;
+        }
+
+        .couple-reveal .couple-with.show::before,
+        .couple-reveal .couple-with.show::after {
+          transform: scaleX(1);
         }
 
         @media (max-width: 480px) {
@@ -172,8 +207,8 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-logo {
-            width: clamp(110px, 32vw, 145px);
-            max-height: 140px;
+            width: clamp(140px, 38vw, 165px);
+            max-height: 160px;
             margin-bottom: 10px;
           }
 
@@ -210,8 +245,8 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-logo {
-            width: 100px;
-            max-height: 95px;
+            width: 125px;
+            max-height: 120px;
             margin-bottom: 7px;
           }
 
@@ -239,65 +274,69 @@ export default function Couple() {
           .couple-reveal .couple-intro,
           .couple-reveal .couple-name,
           .couple-reveal .couple-family,
-          .couple-reveal .couple-with {
+          .couple-reveal .couple-with,
+          .couple-reveal .couple-with::before,
+          .couple-reveal .couple-with::after {
             transition: none;
+            transform: none;
           }
         }
       `}</style>
 
-      {/* Background image */}
-      <img
-        className="couple-bg"
-        src={coupleBackground}
-        alt=""
-        aria-hidden="true"
-      />
-
-      {/* Light overlay */}
-      <div className="couple-bg-shade" />
-
-      {/* Couple details */}
-      <div className="couple-content">
-        <p className={`couple-mantra ${step >= 1 ? "show" : ""}`}>
-          श्री महावीर नमः
-        </p>
-
+      <section className="couple-reveal">
         <img
-          src={coupleLogo}
-          alt="Couple Logo"
-          className={`couple-logo ${step >= 1 ? "show" : ""}`}
+          className="couple-bg"
+          src={coupleBackground}
+          alt=""
+          aria-hidden="true"
         />
 
-        <p className={`couple-intro ${step >= 1 ? "show" : ""}`}>
-          With love, we warmly invite you
-          <br />
-          to the engagement celebration of
-        </p>
+        <div className="couple-bg-shade" />
 
-        <h1 className={`couple-name ${step >= 2 ? "show" : ""}`}>
-          Tanay
-        </h1>
+        <div className="couple-content">
+          <p className={`couple-mantra ${step >= 1 ? "show" : ""}`}>
+            श्री महावीर नमः
+          </p>
 
-        <p className={`couple-family ${step >= 3 ? "show" : ""}`}>
-          Grandson of Late Shri Suresh Ji &amp; Smt. Tara Devi Nabariya
-          <br />
-          Son of Mahavirji Nanata Jain
-        </p>
+          <img
+            src={coupleLogo}
+            alt="Couple Logo"
+            className={`couple-logo ${step >= 1 ? "show" : ""}`}
+          />
 
-        <div className={`couple-with ${step >= 4 ? "show" : ""}`}>
-          with
+          <p className={`couple-intro ${step >= 2 ? "show" : ""}`}>
+            With love, we warmly invite you
+            <br />
+            to the engagement celebration of
+          </p>
+
+          {/* Selvi first */}
+          <h1 className={`couple-name ${step >= 3 ? "show" : ""}`}>
+            Selvi
+          </h1>
+
+          <p className={`couple-family ${step >= 4 ? "show" : ""}`}>
+            Granddaughter of Shri Uttamraj Rashmi Kataria
+            <br />
+            Daughter of Ashish Poonam Kataria
+          </p>
+
+          <div className={`couple-with ${step >= 5 ? "show" : ""}`}>
+            with
+          </div>
+
+          {/* Tanay after Selvi */}
+          <h1 className={`couple-name ${step >= 6 ? "show" : ""}`}>
+            Tanay
+          </h1>
+
+          <p className={`couple-family ${step >= 7 ? "show" : ""}`}>
+            Grandson of Late Shri Suresh Ji Tara Devi Nabariya
+            <br />
+            Son of Mahavirji Nanata Jain
+          </p>
         </div>
-
-        <h1 className={`couple-name ${step >= 5 ? "show" : ""}`}>
-          Selvi
-        </h1>
-
-        <p className={`couple-family ${step >= 6 ? "show" : ""}`}>
-          Granddaughter of Shri Uttamraj &amp; Rashmi Kataria
-          <br />
-          Daughter of Mr. Ashish &amp; Poonam Kataria
-        </p>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

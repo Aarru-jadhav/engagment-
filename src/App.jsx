@@ -3,10 +3,10 @@ import { useState, useRef, useEffect } from "react";
 
 import Couple from "./Section/Couple";
 import DateSection from "./Section/Date";
+import Rsvp from "./Section/Rsvp";
 
 import gatePoster from "./assets/image/gate.png";
 import gateVideo from "./assets/video/engagment-video-optimized.mp4";
-import Rsvp from "./Section/Rsvp";
 
 const styles = `
   * {
@@ -16,18 +16,19 @@ const styles = `
   html {
     margin: 0;
     padding: 0;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 
   body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
 
   .wedding-page {
     width: 100%;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: clip;
     background: #fdfbf7;
   }
 
@@ -95,25 +96,11 @@ const styles = `
     );
   }
 
-  .invitation-label {
-    margin: 0 0 15px;
-    color: #f2d69b;
-    font-size: 14px;
-    letter-spacing: 2px;
-  }
-
   .gold-divider {
     width: 75px;
     height: 1px;
     margin-bottom: 16px;
     background: #d4af63;
-  }
-
-  .gate-subtitle {
-    margin: 0 0 25px;
-    color: #fff3dc;
-    font-size: 15px;
-    line-height: 1.7;
   }
 
   .blob-btn {
@@ -150,13 +137,6 @@ const styles = `
   .blob-btn__inner,
   .blob-btn__blobs {
     display: none;
-  }
-
-  .tap-note {
-    margin: 15px 0 0;
-    color: #f7e9ce;
-    font-size: 12px;
-    letter-spacing: 1px;
   }
 
   .welcome-overlay {
@@ -213,15 +193,6 @@ const styles = `
 
     .gate-overlay {
       padding: 30px 18px 9vh;
-    }
-
-    .invitation-label {
-      font-size: 12px;
-    }
-
-    .gate-subtitle {
-      max-width: 290px;
-      font-size: 13px;
     }
 
     .welcome-overlay {
@@ -282,6 +253,8 @@ export default function App() {
 
     try {
       video.currentTime = 0;
+      video.muted = true;
+
       await video.play();
 
       timersRef.current.push(
@@ -301,6 +274,11 @@ export default function App() {
     clearTimers();
     setIsOpening(false);
     setShowContent(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
   };
 
   return (
@@ -318,23 +296,23 @@ export default function App() {
               alt="Engagement entrance"
             />
 
-           {isOpening && (
-  <video
-    ref={videoRef}
-    className="gate-video video-visible"
-    src={gateVideo}
-    playsInline
-    preload="auto"
-    muted
-    onLoadedData={handleVideoReady}
-    onEnded={handleVideoEnd}
-    onError={() => {
-      console.error(
-        "Opening video failed to load. Check the file path."
-      );
-    }}
-  />
-)}
+            {isOpening && (
+              <video
+                ref={videoRef}
+                className="gate-video video-visible"
+                src={gateVideo}
+                playsInline
+                preload="auto"
+                muted
+                onLoadedData={handleVideoReady}
+                onEnded={handleVideoEnd}
+                onError={() => {
+                  console.error(
+                    "Opening video failed to load. Check the file path."
+                  );
+                }}
+              />
+            )}
 
             {isOpening && (
               <div className="welcome-overlay">
@@ -366,10 +344,7 @@ export default function App() {
 
             {!isOpening && (
               <div className="gate-overlay">
-                
                 <div className="gold-divider" />
-
-                
 
                 <button
                   type="button"
@@ -377,27 +352,21 @@ export default function App() {
                   onClick={handleOpen}
                 >
                   TAP TO OPEN
-
-                  <span className="blob-btn__inner">
-                    <span className="blob-btn__blobs">
-                      <span className="blob-btn__blob" />
-                      <span className="blob-btn__blob" />
-                      <span className="blob-btn__blob" />
-                      <span className="blob-btn__blob" />
-                    </span>
-                  </span>
                 </button>
-
-                
               </div>
             )}
           </section>
         ) : (
-          <>
+          <div className="wedding-content">
+            {/* Couple section: normal scroll */}
             <Couple />
+
+            {/* Date section: independently pinned scroll animation */}
             <DateSection />
-            <Rsvp/>
-          </>
+
+            {/* RSVP section: normal scroll after Date animation */}
+            <Rsvp />
+          </div>
         )}
       </main>
     </>
