@@ -96,10 +96,11 @@ export default function Couple() {
           width: 100%;
           max-width: 650px;
           margin: auto;
+        
           display: flex;
           flex-direction: column;
           align-items: center;
-          transform: translateY(25px);
+          transform: translateY(55px);
         }
 
         .couple-reveal .couple-intro,
@@ -253,8 +254,8 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-family {
-            font-size: 16px;
-            line-height: 1.4;
+            font-size: 11px;
+            line-height: 1.5;
             margin: 6px 0 10px;
           }
 
@@ -299,7 +300,7 @@ export default function Couple() {
           }
 
           .couple-reveal .couple-family {
-            font-size: 11px;
+            font-size: 14px;
             margin: 4px 0 7px;
             line-height: 1.3;
           }
@@ -308,6 +309,10 @@ export default function Couple() {
             font-size: 19px;
             margin-bottom: 4px;
           }
+            .couple-reveal .couple-content {
+    transform: translateY(35px);
+  }
+}
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -343,7 +348,7 @@ export default function Couple() {
 
         <div className="couple-content">
           <p className={`couple-intro ${step >= 2 ? "show" : ""}`}>
-            With love, we warmly invite you
+             we warmly invite you
             <br />
             to the engagement celebration of
           </p>
